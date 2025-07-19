@@ -1,0 +1,27 @@
+name: Deploy to Production
+on:
+  push:
+    braches: ["production"]
+
+jobs:
+  redeploy_everthing:
+  runs-on: unbuntu-latest
+  name: deploy everthing to the production
+
+  steps:
+    -run: |
+      echo ${{secrets.SSH_PRIVATE_KEY}} &> ~/ssh_key
+      mkdir -p /home/runner/.ssh
+      chmod 700 /home/runner/ssh_key
+      ssh -i ~/ssh_key -o StrictHostKeyChecking=no ubuntu@13.203.226.64 -t
+      "cd CanvasFlow && git pull origin production &&
+      export PATH=/root/.nvm/versions/node/v20.16.0/bin:$PATH &&
+      npm install -g pnpm && 
+      pnpm install &&
+      pnpm build &&
+      pm2 restart frontend &&
+      pm2 restart backend &&
+      pm2 restart webSockt"
+
+
+PATH=echo $PATH
