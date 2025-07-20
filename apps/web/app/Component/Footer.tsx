@@ -59,10 +59,13 @@ const Footer: React.FC = () => {
   ];
 
   const socialLinks = [
-    { icon: Twitter, href: "#twitter", label: "Twitter" },
-    { icon: Github, href: "#github", label: "GitHub" },
-    { icon: Linkedin, href: "#linkedin", label: "LinkedIn" },
-    { icon: Instagram, href: "#instagram", label: "Instagram" },
+    { icon: Twitter, href: "https://x.com/ArihantChougul6", label: "Twitter" },
+    { icon: Github, href: "https://github.com/Arihant09x/", label: "GitHub" },
+    {
+      icon: Linkedin,
+      href: "https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile",
+      label: "LinkedIn",
+    },
   ];
 
   return (
@@ -96,15 +99,15 @@ const Footer: React.FC = () => {
               <div className="space-y-3 text-sm text-gray-600">
                 <div className="flex items-center space-x-3">
                   <Mail className="w-4 h-4 text-purple-500" />
-                  <span>hello@canvasflow.com</span>
+                  <span>arihantc677@gmail.com</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Phone className="w-4 h-4 text-purple-500" />
-                  <span>+1 (555) 123-4567</span>
+                  <span>+91 9113582352</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <MapPin className="w-4 h-4 text-purple-500" />
-                  <span>San Francisco, CA</span>
+                  <span>India</span>
                 </div>
               </div>
             </motion.div>
@@ -178,7 +181,7 @@ const Footer: React.FC = () => {
           >
             <span>© {currentYear} CanvasFlow. Made with</span>
             <Heart className="w-4 h-4 text-red-500 fill-current" />
-            <span>in San Francisco</span>
+            <span>in India</span>
           </motion.div>
 
           {/* Social Links */}
@@ -193,6 +196,8 @@ const Footer: React.FC = () => {
               <a
                 key={social.label}
                 href={social.href}
+                target="_blank"
+                rel="noreferrer"
                 className="w-10 h-10 bg-white border border-gray-200 rounded-lg flex items-center justify-center text-gray-600 hover:text-purple-600 hover:border-purple-200 hover:bg-purple-50 transition-all duration-200"
                 aria-label={social.label}
               >
