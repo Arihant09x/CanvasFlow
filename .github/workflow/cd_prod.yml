@@ -1,27 +1,34 @@
 name: Deploy to Production
+
 on:
   push:
-    braches: [main]
+    branches: [main]
 
 jobs:
-  redeploy_everthing:
-    runs-on: unbuntu-latest
-    name: deploy everthing to the production
+  redeploy_everything:
+    runs-on: ubuntu-latest
+    name: Deploy everything to production
 
     steps:
-      -run: |
-        echo "${{secrets.SSH_PRIVATE_KEY}}" &> ~/ssh_key
-        mkdir -p /home/runner/.ssh
-        ls /home/runner/.ssh
-        touch /home/runner/.ssh/known_hosts
-        echo "${{ secrets.KNOWN_HOSTS }}" &> /home/runner/.ssh/known_hosts
-        chmod 700 /home/runner/ssh_key
-        ssh -i ~/ssh_key  ubuntu@65.2.176.130 -t
-        "cd canvasflow && git pull origin main &&
-        export PATH=/home/ubuntu/.nvm/versions/node/v22.17.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin &&
-        npm install -g pnpm && 
-        pnpm install &&
-        pnpm run build &&
-        pm2 restart frontend &&
-        pm2 restart http-backend &&
-        pm2 restart wb-backend"
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy over SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > ~/ssh_key
+          chmod 600 ~/ssh_key
+
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@$EC2_HOST << 'EOF'
+            cd canvasflow && \
+            git pull origin main && \
+            export PATH=/home/ubuntu/.nvm/versions/node/v22.17.1/bin:$PATH && \
+            npm install -g pnpm && \
+            pnpm install && \
+            pnpm run build && \
+            pm2 restart frontend && \
+            pm2 restart http-backend && \
+            pm2 restart wb-backend
+          EOF
