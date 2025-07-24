@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "http://canvasflow.devvault.site/api/v1";
+const BASE_URL = "https://canvasflow.devvault.site/";
 const apiClient = axios.create({
   baseURL: BASE_URL,
   headers: {
