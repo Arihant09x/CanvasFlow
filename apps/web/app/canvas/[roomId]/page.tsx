@@ -26,7 +26,7 @@ export default function Page() {
       const id = res.room.id;
       setRoomId(id);
       const WS_URL =
-        env.NEXT_PUBLIC_WS_URL || "ws://canvasflow.devvault.site/ws";
+        env.NEXT_PUBLIC_WS_URL || "wss://canvasflow.devvault.site/ws";
       const ws = new WebSocket(`${WS_URL}/?token=${token}`);
       ws.onopen = () => {
         setSocket(ws);
