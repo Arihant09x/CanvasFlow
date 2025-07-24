@@ -44,6 +44,8 @@ interface ClickableBentoGridProps {
 
 const Page = () => {
   const [rooms, setRooms] = useState<RoomItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
 
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -199,7 +201,7 @@ const Page = () => {
             fetchedRooms.map((room: any) => ({
               id: room.id,
               roomName: room.slug,
-              adminName: room.adminName || "", // You can replace with actual admin name if available
+              adminName: room.adminName || "",
               slug: room.slug,
               imageUrl:
                 "https://upload.wikimedia.org/wikipedia/commons/3/3a/Excalidraw_logo.png",
@@ -213,6 +215,7 @@ const Page = () => {
           });
         }
       }
+      setLoading(false); // ✅ Always stop loading after fetch
     };
     fetchRooms();
   }, []);
@@ -337,7 +340,7 @@ const Page = () => {
           </div>
 
           {/* Grid */}
-          {rooms.length === 0 ? (
+          {loading ? (
             <div className="text-center mt-32">
               <p className="mb-6 text-purple-400 text-lg">Loading rooms...</p>
             </div>
